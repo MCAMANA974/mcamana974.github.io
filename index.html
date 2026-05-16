@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio pédagogique — Murielle CAMANA-PATAMA</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bleu:       #1F4E79;
+      --bleu-md:    #2E75B6;
+      --bleu-clair: #BDD7EE;
+      --or:         #C9A84C;
+      --blanc:      #F7F5F0;
+      --noir:       #0D1B2A;
+      --gris:       #8A9BAD;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--noir);
+      color: var(--blanc);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── FOND animé ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 10% 20%, rgba(31,78,121,0.35) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 90% 80%, rgba(46,117,182,0.2) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 40% at 50% 50%, rgba(201,168,76,0.05) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 40px;
+      text-align: center;
+    }
+
+    .hero-tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--or);
+      border: 1px solid rgba(201,168,76,0.4);
+      padding: 6px 18px;
+      border-radius: 2px;
+      margin-bottom: 40px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.2s;
+    }
+
+    .hero-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: var(--blanc);
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.4s;
+    }
+
+    .hero-name span {
+      color: var(--bleu-clair);
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    .hero-subtitle {
+      margin-top: 24px;
+      font-size: clamp(0.9rem, 2vw, 1.05rem);
+      font-weight: 300;
+      color: var(--gris);
+      letter-spacing: 0.04em;
+      line-height: 1.7;
+      max-width: 580px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.6s;
+    }
+
+    .hero-grade {
+      margin-top: 16px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--or);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.8s;
+    }
+
+    .hero-quote {
+      margin-top: 48px;
+      max-width: 520px;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: clamp(1rem, 2.2vw, 1.2rem);
+      color: var(--bleu-clair);
+      line-height: 1.6;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 1s;
+      border-left: 2px solid var(--or);
+      padding-left: 24px;
+      text-align: left;
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 36px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: var(--gris);
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 1.4s;
+    }
+
+    .scroll-hint::after {
+      content: '';
+      width: 1px;
+      height: 48px;
+      background: linear-gradient(to bottom, var(--gris), transparent);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    /* ── SECTION PROJETS ── */
+    .section {
+      position: relative;
+      z-index: 1;
+      padding: 100px 40px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--or);
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700;
+      color: var(--blanc);
+      margin-bottom: 60px;
+      line-height: 1.2;
+    }
+
+    .section-title em {
+      color: var(--bleu-clair);
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    /* ── GRILLE PROJETS ── */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(189,215,238,0.1);
+      border-radius: 4px;
+      padding: 32px 28px;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      display: block;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px; height: 0;
+      background: var(--or);
+      transition: height 0.3s ease;
+    }
+
+    .card:hover {
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(189,215,238,0.25);
+      transform: translateY(-4px);
+    }
+
+    .card:hover::before { height: 100%; }
+
+    .card-icon {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--blanc);
+      margin-bottom: 12px;
+      line-height: 1.3;
+    }
+
+    .card-desc {
+      font-size: 0.88rem;
+      color: var(--gris);
+      line-height: 1.7;
+      font-weight: 300;
+    }
+
+    .card-tag {
+      display: inline-block;
+      margin-top: 20px;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--bleu-clair);
+      font-weight: 500;
+    }
+
+    /* ── SECTION DIGIPAD ── */
+    .digipad-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .digipad-card {
+      background: rgba(31,78,121,0.15);
+      border: 1px solid rgba(31,78,121,0.4);
+      border-radius: 4px;
+      padding: 28px 24px;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.3s ease;
+      display: block;
+    }
+
+    .digipad-card:hover {
+      background: rgba(31,78,121,0.3);
+      border-color: var(--bleu-md);
+      transform: translateY(-3px);
+    }
+
+    .digipad-card .card-title {
+      font-size: 1rem;
+    }
+
+    /* ── SÉPARATEUR ── */
+    .sep {
+      width: 60px;
+      height: 2px;
+      background: var(--or);
+      margin: 0 auto 80px;
+      opacity: 0.5;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 48px 40px;
+      text-align: center;
+    }
+
+    footer p {
+      font-size: 0.82rem;
+      color: var(--gris);
+      line-height: 1.8;
+      font-weight: 300;
+    }
+
+    footer strong {
+      color: var(--bleu-clair);
+      font-weight: 500;
+    }
+
+    footer .contact {
+      margin-top: 16px;
+      font-size: 0.8rem;
+      color: var(--or);
+      letter-spacing: 0.05em;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.4; }
+      50%       { opacity: 1; }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      .hero { padding: 60px 24px; }
+      .section { padding: 70px 24px; }
+      .hero-quote { font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <section class="hero">
+    <span class="hero-tag">Portfolio pédagogique</span>
+    <h1 class="hero-name">Murielle<br><span>CAMANA-PATAMA</span></h1>
+    <p class="hero-subtitle">
+      Professeure certifiée en Économie-Gestion option Marketing<br>
+      Académie de La Réunion · LGT Louis Payen — Saint-Paul
+    </p>
+    <p class="hero-grade">Classe Exceptionnelle · 30 ans d'enseignement</p>
+    <blockquote class="hero-quote">
+      "Toujours à la recherche des leviers et des déclencheurs qui mettent les élèves en situation de réussite."
+    </blockquote>
+    <div class="scroll-hint">Découvrir</div>
+  </section>
+
+  <!-- PROJETS GITHUB -->
+  <section class="section">
+    <p class="section-label">Ressources pédagogiques</p>
+    <h2 class="section-title">Projets & <em>documents</em></h2>
+
+    <div class="grid">
+
+      <a class="card" href="https://github.com/MCAMANA974/portfolio-pedagogique/tree/main/cours-a-distance-2020_STMG-Mercatique" target="_blank">
+        <span class="card-icon">📡</span>
+        <div class="card-title">Cours à distance — STMG Mercatique</div>
+        <p class="card-desc">Programmations complètes conçues et diffusées dès mars 2020. Plusieurs versions itératives pour s'adapter aux contraintes du confinement.</p>
+        <span class="card-tag">COVID · 2020 · Terminale STMG</span>
+      </a>
+
+      <a class="card" href="https://github.com/MCAMANA974/portfolio-pedagogique/tree/main/cours-a-distance-2020_BTSNDRC" target="_blank">
+        <span class="card-icon">📡</span>
+        <div class="card-title">Cours à distance — BTS NDRC</div>
+        <p class="card-desc">Séquences élaborées pour les étudiants de BTS NDRC2 en Relation Client et Développement Commercial, dans le cadre de la continuité pédagogique.</p>
+        <span class="card-tag">COVID · 2020 · BTS NDRC</span>
+      </a>
+
+      <a class="card" href="https://github.com/MCAMANA974/portfolio-pedagogique/tree/main/speed-meeting_STMG-2019" target="_blank">
+        <span class="card-icon">🤝</span>
+        <div class="card-title">Speed Meeting avec des professionnels</div>
+        <p class="card-desc">Compte-rendu et témoignages d'élèves issus d'une rencontre avec deux entrepreneurs, articulée autour des enjeux de la Mercatique durable.</p>
+        <span class="card-tag">Nov. 2019 · Terminale STMG</span>
+      </a>
+
+      <a class="card" href="https://github.com/MCAMANA974/portfolio-pedagogique/tree/main/projets_pedagogiqgues_Guyane" target="_blank">
+        <span class="card-icon">🌿</span>
+        <div class="card-title">Projets pédagogiques — Guyane</div>
+        <p class="card-desc">Traces des projets menés au LGT Félix Eboué de Cayenne : séminaire d'intégration BTS, certification Voltaire, promotion des sections.</p>
+        <span class="card-tag">2006–2020 · Guyane</span>
+      </a>
+
+      <a class="card" href="https://github.com/MCAMANA974/portfolio-pedagogique/tree/main/BTS%20NDRC-proposition-sujets-epreuve%20pratique" target="_blank">
+        <span class="card-icon">📝</span>
+        <div class="card-title">BTS NDRC — Sujets épreuve pratique</div>
+        <p class="card-desc">Propositions de sujets pour l'épreuve pratique du BTS NDRC, élaborées à partir de situations professionnelles réelles.</p>
+        <span class="card-tag">BTS NDRC · Épreuve E6</span>
+      </a>
+
+      <a class="card" href="https://mcamana974.github.io/SGN-agilite/" target="_blank">
+        <span class="card-icon">💡</span>
+        <div class="card-title">Le numérique : agilité ou rigidité ?</div>
+        <p class="card-desc">Séquence pédagogique interactive complète — vidéo, synthèse, quiz, QCM. Chapitre 9 du programme de Management.</p>
+        <span class="card-tag">STMG · Management · Interactive</span>
+      </a>
+
+    </div>
+  </section>
+
+  <div class="sep"></div>
+
+  <!-- TRAVAUX COLLABORATIFS DIGIPAD -->
+  <section class="section" style="padding-top: 0;">
+    <p class="section-label">Travaux collaboratifs</p>
+    <h2 class="section-title">Interdisciplinarité & <em>innovation</em></h2>
+
+    <div class="digipad-grid">
+
+      <a class="digipad-card" href="https://digipad.app/p/523964/3403437159095" target="_blank">
+        <span class="card-icon">🗂️</span>
+        <div class="card-title">Plan de formation STMG</div>
+        <p class="card-desc">Travail d'équipe pré-bac et post-bac. Construction collaborative d'une programmation commune.</p>
+        <span class="card-tag">Digipad · Équipe pédagogique</span>
+      </a>
+
+      <a class="digipad-card" href="https://digipad.app/p/1230600/8976672c1507d" target="_blank">
+        <span class="card-icon">🏭</span>
+        <div class="card-title">La Petite Fabrique — 1re STMG</div>
+        <p class="card-desc">Travail d'équipe en Sciences de Gestion et Numérique. Projet collaboratif ancré dans la réalité des élèves.</p>
+        <span class="card-tag">Digipad · 1re STMG · SDGN</span>
+      </a>
+
+      <a class="digipad-card" href="https://digipad.app/p/1386551/7a3e047f81c44" target="_blank">
+        <span class="card-icon">⚖️</span>
+        <div class="card-title">L'Entre-deux</div>
+        <p class="card-desc">Projet interdisciplinaire Droit & Économie et Philosophie. Un apprentissage mutuel et dynamique entre disciplines.</p>
+        <span class="card-tag">Digipad · Interdisciplinaire · Philo</span>
+      </a>
+
+      <a class="digipad-card" href="https://digipad.app/p/1182077/9abffbaec3f17" target="_blank">
+        <span class="card-icon">✈️</span>
+        <div class="card-title">Erasmus — Job Shadowing Vienne</div>
+        <p class="card-desc">Carnet de bord du voyage pédagogique en Autriche. Observation de pratiques innovantes réinvesties en classe.</p>
+        <span class="card-tag">Digipad · Erasmus · Mai 2025</span>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>
+      <strong>CAMANA-PATAMA Murielle</strong><br>
+      Professeure certifiée de Classe Exceptionnelle — Économie-Gestion option Marketing<br>
+      LGT Louis Payen · Saint-Paul · Académie de La Réunion
+    </p>
+    <p class="contact">Murielle-Lisie.Camana-Patama@ac-reunion.fr · +262 692 81 09 21</p>
+  </footer>
+
+</body>
+</html>
